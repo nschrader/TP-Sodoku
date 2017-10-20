@@ -1,28 +1,18 @@
-CFLAGS = -g -Wall -DDEBUG
-LDLAGS = -g -Wall -DDEBUG
+CC=gcc
+CFLAGS=-g -std=c99
+PROG=sudoku
+SRC=main.c io.c #check.c
+OBJ=${SRC:.c=.o}
 
-all: lireSudoku #resoudreSudoku 
+.PHONY: all clean
 
-utilSudoku.o: utilSudoku.c utilSudoku.h
-	gcc ${CFLAGS} -c utilSudoku.c  -o utilSudoku.o
+all:	main
 
-main.o:	main.c
-	gcc ${CFLAGS} -c main.c -o main.o
+main:	$(OBJ)
+			$(CC) -o $(PROG) $^ $(CFLAGS)
 
-lireSudoku: main.o utilSudoku.o
-	gcc ${LDFLAGS} main.o utilSudoku.o -o lireSudoku
+%.o:	%.c
+			$(CC) -c -o $@ $< $(CFLAGS)
 
-resoudreSudoku: sudoku.o utilSudoku.o
-	gcc ${LDFLAGS} sudoku.o   utilSudoku.o -o resoudreSudoku
-
-sudoku.o: sudoku.c sudoku.h
-	gcc ${CFLAGS} -c sudoku.c  -o sudoku.o
-
-tar-sol: 
-	cd ..; tar cvf  TP2-code.tar prog/main.c prog/utilSudoku.c prog/utilSudoku.h prog/Makefile prog/sudokuInit.txt  prog/sudoku1.txt prog/sudoku.c
-
-tar: 
-	cd ..; tar cvf  TP2.tar prog/main.c prog/utilSudoku.c prog/utilSudoku.h prog/Makefile prog/sudokuInit.txt  prog/sudoku1.txt 
-
-clean: 
-	\rm -rf *.o sudoku solution *~
+clean:
+			rm -rf *.o $(PROG)

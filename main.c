@@ -1,31 +1,29 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include "utilSudoku.h"
-	 
-int  main(int argc,char *argv[])
-{
-  FILE *fich;
-  char *nomFich ;
-  int sudoku[9][9];
-  
-  if (argc!=2)
-    {
-      fprintf(stdout," usage: %s nomFich.txt \n",argv[0]);
-      exit(-1);
-    }
-  nomFich=(char *)malloc(100*sizeof(char));
-  strcpy(nomFich,argv[1]);
-  fich=fopen(nomFich,"r");
-  if (!fich)
-    {
-      fprintf(stderr,"erreur d'ouverture du fichier\n");
-      exit(-1);
-    }
-  
- lireSudoku(fich,sudoku); 
- fprintf(stdout," sudoku lu: \n");
- ecrireSudoku(stdout,sudoku);
 
-   return(0);
+#include "main.h"
+#include "io.h"
+
+static char* getFileNameFromArgumets(int argc, char* argv[]) {
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s file\n", argv[0]);
+    exit(EXIT_FAILURE);
+  }
+	return argv[1];
+}
+
+FILE* openFileAndCheck(char *fileName) {
+	FILE* file = fopen(fileName, "r");
+	if (file == NULL) {
+		perror("Cannot open input file");
+		exit(EXIT_FAILURE);
+	}
+}
+
+int main(int argc, char* argv[]) {
+	char* fileName = getFileNameFromArgumets(argc, argv);
+	FILE* file = openFileAndCheck(fileName);
+  Sudoku sudoku = readSudoku(file);
+	printSodoku(sudoku);
+	return EXIT_SUCCESS;
 }
