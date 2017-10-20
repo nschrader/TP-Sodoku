@@ -6,7 +6,7 @@
 
 #define SUDOKU_SUM 45
 
-bool check(Sudoku sudoku) {
+bool checkSudoku(Sudoku sudoku) {
   Digit columnSum[SUDOKU_SIZE];
   Digit lineSum[SUDOKU_SIZE];
   memset(columnSum, 0, sizeof(Digit)*SUDOKU_SIZE);

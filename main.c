@@ -26,6 +26,6 @@ int main(int argc, char* argv[]) {
 	FILE* file = openFileAndCheck(fileName);
 	Sudoku sudoku = readSudoku(file);
 	printSodoku(sudoku);
-	printf("Is a %s Sudoku\n", check(sudoku) ? "correct" : "incorrect");
+	printf("Is a %s Sudoku\n", checkSudoku(sudoku) ? "correct" : "incorrect");
 	return EXIT_SUCCESS;
 }

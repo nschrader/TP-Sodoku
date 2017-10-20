@@ -5,6 +5,6 @@
 
 #include "main.h"
 
-bool check(Sudoku sudoku);
+bool checkSudoku(Sudoku sudoku);
 
 #endif
