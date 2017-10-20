@@ -2,8 +2,9 @@
 #define MAIN_H
 
 #define SUDOKU_SIZE 9
+#define dref_(x, y, z) (x.grid[y][z])
 
-typedef char Digit;
+typedef int Digit;
 
 typedef struct {
   Digit grid[SUDOKU_SIZE][SUDOKU_SIZE];

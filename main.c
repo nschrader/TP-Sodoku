@@ -7,8 +7,8 @@
 static char* getFileNameFromArgumets(int argc, char* argv[]) {
 	if (argc != 2) {
 		fprintf(stderr, "Usage: %s file\n", argv[0]);
-    exit(EXIT_FAILURE);
-  }
+		exit(EXIT_FAILURE);
+	}
 	return argv[1];
 }
 
@@ -23,7 +23,7 @@ FILE* openFileAndCheck(char *fileName) {
 int main(int argc, char* argv[]) {
 	char* fileName = getFileNameFromArgumets(argc, argv);
 	FILE* file = openFileAndCheck(fileName);
-  Sudoku sudoku = readSudoku(file);
+	Sudoku sudoku = readSudoku(file);
 	printSodoku(sudoku);
 	return EXIT_SUCCESS;
 }
