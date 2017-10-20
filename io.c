@@ -7,22 +7,22 @@
 Sudoku readSudoku(FILE* file) {
   Sudoku sudoku;
   Digit val;
-  for (int i=0; i<SUDOKU_SIZE; i++) {
-    for (int j=0; j<SUDOKU_SIZE; j++) {
+  for (int c=0; c<SUDOKU_SIZE; c++) {
+    for (int r=0; r<SUDOKU_SIZE; r++) {
       if (fscanf(file, "%d", &val) == EOF) {
         fprintf(stderr, "Unexpected end of input file: Not enough values!\n");
         exit(EXIT_FAILURE);
       }
-      dref_(sudoku, i, j) = val;
+      _col_row(c, r, sudoku) = val;
     }
   }
   return sudoku;
 }
 
 void writeSudoku(FILE *fich, Sudoku sudoku) {
-  for (int i=0; i<SUDOKU_SIZE; i++) {
-    for (int j=0; j<SUDOKU_SIZE; j++) {
-      if (fprintf(fich, "%d ", dref_(sudoku, i, j)) < 0) {
+  for (int c=0; c<SUDOKU_SIZE; c++) {
+    for (int r=0; r<SUDOKU_SIZE; r++) {
+      if (fprintf(fich, "%d ", _col_row(c, r, sudoku)) < 0) {
         perror("Error writing to output file");
         exit(EXIT_FAILURE);
       }
