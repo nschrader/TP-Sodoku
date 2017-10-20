@@ -4,6 +4,7 @@
 #include "main.h"
 #include "io.h"
 #include "check.h"
+#include "solve.h"
 
 static char* getFileNameFromArgumets(int argc, char* argv[]) {
 	if (argc != 2) {

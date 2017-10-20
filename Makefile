@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-g -std=c99
 PROG=sudoku
-SRC=main.c io.c check.c
+SRC=main.c io.c check.c solve.c
 OBJ=${SRC:.c=.o}
 
 .PHONY: all clean
