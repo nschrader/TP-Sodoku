@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "io.h"
+#include "check.h"
 
 static char* getFileNameFromArgumets(int argc, char* argv[]) {
 	if (argc != 2) {
@@ -25,5 +26,6 @@ int main(int argc, char* argv[]) {
 	FILE* file = openFileAndCheck(fileName);
 	Sudoku sudoku = readSudoku(file);
 	printSodoku(sudoku);
+	printf("Is a %s Sudoku\n", check(sudoku) ? "correct" : "incorrect");
 	return EXIT_SUCCESS;
 }
