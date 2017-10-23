@@ -4,11 +4,12 @@
 #include "main.h"
 #include "check.h"
 
-#define shiftOneByIfNotZero(x) ((x) ? (1<<x) : 0)
+#define shiftOneByIfNotZero(x) ((x) ? (1<<(x-1)) : 0)
+#define neither(x, y, z) (~(x | y | z))
 
 static Mask searchRow(Sudoku sudoku, int r) {
   Mask m = 0;
-  for (int c = 0; c < SUDOKU_SIZE; c++) {
+  for (int c=0;c< SUDOKU_SIZE; c++) {
     Digit val = _col_row(c, r, sudoku);
     m |= shiftOneByIfNotZero(val);
   }
@@ -17,7 +18,7 @@ static Mask searchRow(Sudoku sudoku, int r) {
 
 static Mask searchColumn(Sudoku sudoku, int c) {
   Mask m = 0;
-  for (int r = 0; r < SUDOKU_SIZE; r++) {
+  for (int r=0; r<SUDOKU_SIZE; r++) {
     Digit val = _col_row(c, r, sudoku);
     m |= shiftOneByIfNotZero(val);
   }
@@ -26,10 +27,10 @@ static Mask searchColumn(Sudoku sudoku, int c) {
 
 static Mask searchZone(Sudoku sudoku, int col, int row) {
   Mask m = 0;
-  int leftCorner = col / SUDOKU_ZONE;
-  int topCorner = row / SUDOKU_ZONE;
-  for (int c = leftCorner; c < SUDOKU_ZONE; c++) {
-    for (int r = topCorner; r < SUDOKU_ZONE; r++) {
+  int leftCorner = (col/SUDOKU_ZONE) * SUDOKU_ZONE;
+  int topCorner = (row/SUDOKU_ZONE) * SUDOKU_ZONE;
+  for (int c = leftCorner; c < (leftCorner+SUDOKU_ZONE); c++) {
+    for (int r = topCorner; r < (topCorner+SUDOKU_ZONE); r++) {
       Digit val = _col_row(c, r, sudoku);
       m |= shiftOneByIfNotZero(val);
     }
@@ -40,8 +41,8 @@ static Mask searchZone(Sudoku sudoku, int col, int row) {
 static Digit decodeMask(Mask m) {
   bool found = false;
   Digit d;
-  for (Digit i = 0; i < SUDOKU_SIZE; i++) {
-    if (m ^ (1<<i)) {
+  for (Digit i=0; i<SUDOKU_SIZE; i++) {
+    if (m & (1<<i)) {
       if (found) {
         return EMPTY;
       } else {
@@ -57,7 +58,7 @@ static Digit solveCell(Sudoku* sudoku, int c, int r) {
   Mask cMask = searchColumn(*sudoku, c);
   Mask rMask = searchRow(*sudoku, r);
   Mask zMask = searchZone(*sudoku, c, r);
-  Mask m = cMask | rMask | zMask;
+  Mask m = neither(cMask, rMask, zMask);
   Digit d = decodeMask(m);
   _col_row(c, r, *sudoku) = d;
   return d;
